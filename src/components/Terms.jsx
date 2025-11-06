@@ -40,20 +40,23 @@ export function Terms ({ onPickTerm }) {
     <div className='terms'>
       {/* Removed internal <h2> to avoid double "Terms" header. The bold title now comes from App.jsx card__title. */}
 
-      <div className='terms__controls'>
+      <div className="terms__controls" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
         <input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder='Search terms…'
-          className='input'
+          placeholder="Search terms..."
+          className="input rounded-full border border-gray-300 px-5 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm"
+          style={{ flex: 1, minWidth: '260px', maxWidth: '420px' }}   // 👈 這裡控制搜尋框長度
         />
         <button
           onClick={() => setSearch('')}
-          className='btn btn--primary'
+          className="btn rounded-full bg-blue-500 text-white px-5 py-2 text-sm hover:bg-blue-600 transition-all"
         >
           Clear
         </button>
       </div>
+
+
 
       {loading && (
         <div className='terms__skeleton'>

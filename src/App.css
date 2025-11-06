@@ -1,16 +1,16 @@
 
 /* App.css baseline (hoverless look is enforced inline in App.jsx too) */
-:root {
-  --bg: #fafafa;
-  --fg: #111827;
-  --muted: #6b7280;
-  --border: #e5e7eb;
-  --radius: 14px;
-  --primary-600: #2563eb;
-  --btn-font-size: 12px;
-  --btn-py: 6px;
-  --btn-px: 10px;
-  --btn-radius: 8px;
+:root { 
+ --bg: #fafafa; 
+ --fg: #111827;
+ --muted: #6b7280; 
+ --border: #e5e7eb;
+ --radius: 14px; 
+ --primary-600: #2563eb;
+ --btn-font-size: 12px;
+ --btn-py: 6px;
+ --btn-px: 10px;
+ --btn-radius: 8px; 
 }
 
 * { box-sizing: border-box; }
@@ -34,12 +34,98 @@ body {
 
 .app__grid { display: flex; gap: 0; width: 100%; }
 .app__grid > .card { flex: 1 1 0; min-width: 240px; overflow: auto; }
+/* 讓最左邊的 Terms 區塊可以獨立滾動 */
+/* 原本的 overflow-y: auto; 改成 overflow: hidden; */
+.app__grid > .card:first-child {
+  flex: 1 1 0;
+  min-width: 240px;
+  overflow: hidden; /* ❌ 原本是 auto，改成 hidden */
+  max-height: calc(100vh - 150px);
+  scrollbar-width: thin;
+  scrollbar-color: #2563eb #f1f5f9;
+}
+
+
+/* ✅ Chrome、Edge 自訂滾輪外觀 */
+.app__grid > .card:first-child::-webkit-scrollbar {
+  width: 6px;
+}
+.app__grid > .card:first-child::-webkit-scrollbar-thumb {
+  background-color: #2563eb;
+  border-radius: 4px;
+}
+.app__grid > .card:first-child::-webkit-scrollbar-track {
+  background-color: #f1f5f9;
+}
+/* 固定 Terms 區塊的搜尋框 */
+.app__grid > .card:first-child {
+  display: flex;
+  flex-direction: column;
+}
+
+.app__grid > .card:first-child input[type="search"] {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: white;
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  border-radius: 9999px !important;
+  outline: none;
+  box-shadow: 0 1px 2px rgba(0,0,0,.04);
+  transition: box-shadow .15s ease, border-color .15s ease;
+
+  /* ✨ 新增以下三行 ✨ */
+  width: calc(100% - 70px) !important; /* 搜尋框寬度扣掉右邊按鈕空間 */
+  max-width: none !important;          /* 移除原先的寬度限制 */
+  display: inline-block !important;    /* 讓 input 跟 Clear 並排 */
+}
+
+
+.app__grid > .card:first-child input[type="search"]:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37,99,235,.25);
+}
+
+
+/* 讓 Terms 清單可滾動（不影響搜尋框） */
+.app__grid > .card:first-child ul {
+  overflow-y: auto;
+  flex: 1;
+  max-height: calc(100vh - 220px);
+  margin-top: 8px;
+  padding-right: 6px;
+}
+
+/* 美化滾輪 */
+.app__grid > .card:first-child ul::-webkit-scrollbar {
+  width: 6px;
+}
+.app__grid > .card:first-child ul::-webkit-scrollbar-thumb {
+  background-color: #2563eb;
+  border-radius: 4px;
+}
+.app__grid > .card:first-child ul::-webkit-scrollbar-track {
+  background-color: #f1f5f9;
+}
+
 
 .resizer { width: 8px; cursor: col-resize; position: relative; user-select: none; touch-action: none; align-self: stretch; background: transparent; }
 .resizer::after { content:''; position:absolute; top:0; bottom:0; left:3px; width:2px; background: var(--border); transition: background .15s ease; }
 .resizer:hover::after { background: #9ca3af; }
 
-.card { background:white; border:1px solid var(--border); border-radius: var(--radius); padding:12px; }
+.card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.04);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.06);
+}
 .card__title { font-weight:600; margin-bottom:10px; }
 .card--stack > .divider { height:1px; background:var(--border); margin:12px 0; }
 
@@ -102,3 +188,127 @@ button:disabled, .btn:disabled { opacity:.55; cursor:not-allowed; }
 @media (min-width: 1024px) {
   .qb__input { min-width: 640px; }
 }
+
+body {
+  background: #cce8ff !important;
+}
+button, .btn, [role="button"], .button {
+  background: var(--primary-600);
+  color: #fff;
+  border: none;
+  border-radius: var(--btn-radius);
+  padding: var(--btn-py) var(--btn-px);
+  font-weight: 600;
+  font-size: var(--btn-font-size);
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+button:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+/* ===============================
+   NIfTI Viewer 區塊美化
+   =============================== */
+.card:last-child {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 16px 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* 標題更醒目 */
+.card:last-child .card__title,
+.card:last-child h3,
+.card:last-child h4 {
+  font-weight: 700;
+  font-size: 16px;
+  color: #1e3a8a;
+  margin-bottom: 12px;
+}
+
+/* label 與輸入框統一風格 */
+.card:last-child label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin-top: 8px;
+  margin-bottom: 4px;
+}
+
+.card:last-child input[type="text"],
+.card:last-child input[type="number"],
+.card:last-child input[type="range"],
+.card:last-child select {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 13px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:last-child input:focus,
+.card:last-child select:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+/* 腦影像排列 */
+.card:last-child .viewer-images {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  margin-bottom: 8px;
+}
+
+.card:last-child .viewer-images img {
+  width: 32%;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #000;
+}
+
+/* 調整滑桿區 */
+.card:last-child input[type="range"] {
+  accent-color: #2563eb;
+}
+
+/* 區塊之間留白 */
+.card:last-child .viewer-section {
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px solid #e2e8f0;
+}
+/* 讓 Terms 的搜尋框變成圓角長條 */
+.terms .terms__controls .input {
+  width: clamp(240px, 70%, 420px);
+  border: 1px solid var(--border);
+  border-radius: 9999px !important;     /* <— 真的要圓就加 !important */
+  padding: 10px 14px;
+  outline: none;
+  box-shadow: 0 1px 2px rgba(0,0,0,.04);
+  transition: box-shadow .15s ease, border-color .15s ease;
+}
+
+.terms .terms__controls .input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37,99,235,.25);
+}
+
+/* 讓 Clear 跟輸入框同一風格、同高且圓角 */
+.terms .terms__controls .btn {
+  border-radius: 9999px;
+  height: 38px;              /* 和上面 padding 搭配，看起來等高 */
+  padding: 0 12px;
+  line-height: 38px;
+  display: inline-flex;
+  align-items: center;
+}
+

@@ -408,33 +408,58 @@ const coord2idx = (c_mm, n, axis) => {
       </div>
 
       {/* --- Threshold mode & value --- */}
-      <div className='rounded-xl border p-3 text-sm'>
-        <label className='flex items-center gap-2'>
-          <span>Threshold mode</span>
-          <select value={thrMode} onChange={e=>setThrMode(e.target.value)} className='rounded-lg border px-2 py-1'>
-            <option value='value'>Value</option>
-            <option value='pctl'>Percentile</option>
-          </select>
-        </label>
-        <br />
-        {thrMode === 'value' ? (
-          <>
-            <label className='flex items-center gap-2'>
-              <span>Threshold</span>
-              <input type='number' step='0.01' value={thrValue} onChange={e=>setThrValue(Number(e.target.value))} className='w-28 rounded-lg border px-2 py-1' />
-            </label>
-            <br />
-          </>
+      <div className="rounded-xl border p-3 text-sm space-y-3">
+        <div className="flex items-center gap-3">
+          <span className="font-medium text-gray-700">Threshold mode:</span>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setThrMode("value")}
+              className={`px-3 py-1 rounded-md border transition-all ${
+                thrMode === "value"
+                  ? "bg-blue-500 text-white border-blue-500"
+                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+              }`}
+            >
+              Value
+            </button>
+            <button
+              onClick={() => setThrMode("pctl")}
+              className={`px-3 py-1 rounded-md border transition-all ${
+                thrMode === "pctl"
+                  ? "bg-blue-500 text-white border-blue-500"
+                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+              }`}
+            >
+              Percentile
+            </button>
+          </div>
+        </div>
+        {thrMode === "value" ? (
+          <div className="flex items-center gap-2">
+            <span className="font-medium text-gray-700">Threshold:</span>
+            <input
+              type="number"
+              step="0.01"
+              value={thrValue}
+              onChange={(e) => setThrValue(Number(e.target.value))}
+              className="w-28 rounded-lg border px-2 py-1"
+            />
+          </div>
         ) : (
-          <>
-            <label className='flex items-center gap-2'>
-              <span>Percentile</span>
-              <input type='number' min={50} max={99.9} step={0.5} value={pctl} onChange={e=>setPctl(Number(e.target.value)||95)} className='w-24 rounded-lg border px-2 py-1' />
-            </label>
-            <br />
-          </>
+          <div className="flex items-center gap-2">
+            <span className="font-medium text-gray-700">Percentile:</span>
+            <input
+              type="number"
+              min={50}
+              max={99.9}
+              step={0.5}
+              value={pctl}
+              onChange={(e) => setPctl(Number(e.target.value) || 95)}
+              className="w-24 rounded-lg border px-2 py-1"
+            />
+          </div>
         )}
-
+        
         {/* Neurosynth-style coordinate inputs (signed, centered at 0) */}
         <div className='mt-1 flex items-center gap-4'>
           <label className='flex items-center'>
